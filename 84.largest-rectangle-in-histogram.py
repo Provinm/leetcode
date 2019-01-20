@@ -69,6 +69,3 @@ class Solution:
             # forward = diff // abs(diff)
 
             # for _idx in range(min_ptr, max_ptr, forward):
-
-
-
