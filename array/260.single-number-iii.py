@@ -32,4 +32,10 @@
 #
 class Solution:
     def singleNumber(self, nums: 'List[int]') -> 'List[int]':
-        
+        dct = {}
+        for ele in nums:
+            if ele in dct:
+                del dct[ele]
+            else:
+                dct[ele] = True
+        return list(dct.keys())
