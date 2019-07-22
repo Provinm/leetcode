@@ -36,25 +36,45 @@ class Solution:
         :rtype: List[int]
         """
         
-        if not nums:
-            return []
+        dct = {}
 
-        counts = [0]
-        for idx, item in enumerate(nums[1:], 1):
+        for idx, ele in enumerate(nums):
+            if ele in dct:
+                dct[ele].append(idx)
+            else:
+                dct[ele] = [idx]
 
-            for jdx in range(len(counts)):
-                tmp = nums[jdx]
-                if tmp > item:
-                    counts[jdx] += 1
+        nums.sort(reverse=True)
+        length = len(nums)
+        res = [0 for _ in nums]
+        
+        jdx = 0
+        while jdx < length:
 
-            counts.append(0)
+            item = nums[jdx]
+            raw_idx = idx = dct[item].pop(0)
 
-        return counts
+            while dct[item] and dct[item][0]-idx == 1:
+                jdx += 1
+                idx = dct[item].pop(0)
+
+            if idx >= jdx:
+                temp = length - idx - 1 - len(dct[item])
+            else:
+                temp = length - jdx - 1 - len(dct[item])
+
+            while raw_idx <= idx:
+                res[raw_idx] = temp
+                raw_idx += 1
+
+            jdx += 1
+
+        return res
 
 
-# nums = [5]
-# s = Solution()
-# print(s.countSmaller(nums))
+nums = [5,2,2,6,1,5,5,5]
+s = Solution()
+print(s.countSmaller(nums))
 
 '''
 
