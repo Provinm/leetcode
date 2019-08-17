@@ -66,7 +66,45 @@
 # 
 # 
 #
+from typing import List
+
+beginWord = "hit"
+endWord = "cog"
+wordList = ["hot","dot","dog","lot","log","cog"]
+
+
 class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
         
+        wordList = set(wordList)
+        if endWord not in wordList:
+            return 0
+        all_char = 'abcdefghijklmnopqrstuvwxyz'
+        
+        stack = [beginWord]
+        ret = 1
+        temp = []
+        while stack:
+            word = stack.pop()
+            for idx, _ in enumerate(word):
+                for supply in all_char:
+                    new_char = word[:idx] + supply + word[idx+1:]
+                    if new_char == endWord:
+                        return ret+1
+                    elif new_char in wordList:
+                        if new_char != beginWord:
+                            temp.append(new_char)
+                        wordList.remove(new_char)
+            if not stack:
+                ret += 1
+                stack = temp
+                temp = []
+        return 0
 
+'''
+√ Accepted
+  √ 40/40 cases passed (484 ms)
+  √ Your runtime beats 29.68 % of python3 submissions
+  √ Your memory usage beats 48.28 % of python3 submissions (14.6 MB)
+
+'''
